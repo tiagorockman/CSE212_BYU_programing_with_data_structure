@@ -102,27 +102,37 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        word1 = word1.Trim().ToLower().Replace(" ", "");
-        word2 = word2.Trim().ToLower().Replace(" ", "");
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        if (string.IsNullOrWhiteSpace(word1) || string.IsNullOrWhiteSpace(word2)) return false;
-        if(word1.Length != word2.Length) return false;
+        word1 = word1.ToLower().Replace(" ", "");
+    word2 = word2.ToLower().Replace(" ", "");
 
-        Dictionary<string, int> word1Dict = word1.Distinct().ToDictionary(c => c.ToString(), 
-            c => count_word(word1, c));
-        Dictionary<string, int> word2Dict = word2.Distinct().ToDictionary(c => c.ToString(),
-            c => count_word(word2, c));
+    if (string.IsNullOrWhiteSpace(word1) || string.IsNullOrWhiteSpace(word2))
+        return false;
 
-        //check 1 and 2 have the same ammount of words
-        bool same = word2Dict.All(x=>
-                       word1Dict.TryGetValue(x.Key, out int value) && value == x.Value);
+    if (word1.Length != word2.Length)
+        return false;
 
-        return same;
+    Dictionary<char, int> letters = new Dictionary<char, int>();
+
+    foreach (char c in word1)
+    {
+        if (!letters.ContainsKey(c))
+            letters[c] = 0;
+
+        letters[c]++;
     }
 
-    private static int count_word(string word, char c)
+    foreach (char c in word2)
     {
-        return word.Count(ch => ch == c);
+        if (!letters.ContainsKey(c))
+            return false;
+
+        letters[c]--;
+
+        if (letters[c] < 0)
+            return false;
+    }
+
+    return true;
     }
 
     /// <summary>
