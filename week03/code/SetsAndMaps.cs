@@ -102,8 +102,27 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
+        word1 = word1.Trim().ToLower().Replace(" ", "");
+        word2 = word2.Trim().ToLower().Replace(" ", "");
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        if (string.IsNullOrWhiteSpace(word1) || string.IsNullOrWhiteSpace(word2)) return false;
+        if(word1.Length != word2.Length) return false;
+
+        Dictionary<string, int> word1Dict = word1.Distinct().ToDictionary(c => c.ToString(), 
+            c => count_word(word1, c));
+        Dictionary<string, int> word2Dict = word2.Distinct().ToDictionary(c => c.ToString(),
+            c => count_word(word2, c));
+
+        //check 1 and 2 have the same ammount of words
+        bool same = word2Dict.All(x=>
+                       word1Dict.TryGetValue(x.Key, out int value) && value == x.Value);
+
+        return same;
+    }
+
+    private static int count_word(string word, char c)
+    {
+        return word.Count(ch => ch == c);
     }
 
     /// <summary>
