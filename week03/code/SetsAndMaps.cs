@@ -69,10 +69,11 @@ public static class SetsAndMaps
 
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
-            if (fields.Length < 11)
+            if (fields.Length < 4)
                 continue;
 
-            string degree = fields[10].Trim();
+
+            string degree = fields[3].Trim();
 
             if (degrees.ContainsKey(degree))
                 degrees[degree]++;
