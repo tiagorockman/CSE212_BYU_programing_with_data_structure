@@ -340,7 +340,7 @@ public class EarthquakeDailySummaryTests
 
         foreach (string s in result)
         {
-            Assert.IsTrue(s.Contains(" - Mag "), "String must contain a magnitude");
+            Assert.IsTrue(s.Contains(" - Magnitude "), "String must contain a magnitude");
         }
     }
 }
