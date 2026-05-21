@@ -21,8 +21,31 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
+
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        if (words == null || words.Length == 0)
+            return Array.Empty<string>();
+
+        List<string> result = new List<string>();
+        HashSet<string> seen = new HashSet<string>();
+
+        //remove duplicate
+        foreach (var word in words)
+        {
+            string reversed = new string(new char[] { word[1], word[0] });
+
+            // Skip same-char words like "aa"
+            if (word != reversed && seen.Contains(reversed))
+            {
+                result.Add($"{word} & {reversed}");
+            }
+            else
+            {
+                seen.Add(word);
+            }
+        }
+
+        return result.ToArray() ;
     }
 
     /// <summary>
@@ -41,8 +64,20 @@ public static class SetsAndMaps
         var degrees = new Dictionary<string, int>();
         foreach (var line in File.ReadLines(filename))
         {
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            if (fields.Length < 11)
+                continue;
+
+            string degree = fields[10].Trim();
+
+            if (degrees.ContainsKey(degree))
+                degrees[degree]++;
+            else
+                degrees[degree] = 1;
         }
 
         return degrees;
